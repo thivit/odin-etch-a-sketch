@@ -1,0 +1,13 @@
+#grid {
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    outline: black solid 10px;
+}
+
+.pixel {
+    height: 100px;
+    width: 100px;
+    background-color: white;
+}
