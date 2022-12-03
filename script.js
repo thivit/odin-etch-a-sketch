@@ -7,3 +7,8 @@ for (let i = 0; i < 16; i++) {
     pixel.setAttribute('class', 'pixel');
     grid.append(pixel);
 }
+
+// Change color of pixel when clicked
+grid.addEventListener('click', function(e){
+    e.target.style.backgroundColor = 'blue';
+})
