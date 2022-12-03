@@ -1,14 +1,57 @@
-// Get elements
-const grid = document.querySelector('#grid');
+// Grid generation
 
-// Generate the pixels in the grid
-for (let i = 0; i < 16; i++) {
-    const pixel = document.createElement('div');
-    pixel.setAttribute('class', 'pixel');
-    grid.append(pixel);
+const grid = document.querySelector('#grid');
+const gridSlider = document.querySelector('#gridSlider');
+const gridSizeConfirm = document.querySelector('#gridSizeConfirm');
+const gridPixelSize = 640;
+let currentGridSize;
+
+function createGrid(gridSize){
+
+    // Remove all current pixels in the grid
+    while (grid.firstChild) {
+        grid.removeChild(grid.lastChild);
+    }
+
+    // Generate new grid
+    let gridSizeSquared = gridSize ** 2;
+    let pixelSize = gridPixelSize / gridSize; 
+
+    for (let i = 0; i < gridSizeSquared; i++) {
+        const pixel = document.createElement('div');
+        pixel.style.height = pixelSize + 'px';
+        pixel.style.width = pixelSize + 'px';
+        grid.append(pixel);
+    }
 }
 
-// Change color of pixel when hovered
+// Create default grid first
+createGrid(16);
+
+// Slider to select new gird size
+gridSlider.oninput = function() {
+    currentGridSize = parseInt(this.value);
+    console.log(currentGridSize);
+}
+
+// Confirm button to change grid size
+gridSizeConfirm.addEventListener('click', function() {
+    createGrid(currentGridSize)
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Change color of pixel when hovered over
 grid.addEventListener('mouseover', function(e){
     e.target.setAttribute('data-hover', 'true');
 })
@@ -17,6 +60,7 @@ grid.addEventListener('mouseout', function(e){
 })
 
 // Change color of pixel when clicked
-grid.addEventListener('click', function(e){
+grid.addEventListener('mousedown', function(e){
     e.target.style.backgroundColor = 'blue';
 })
+

@@ -1,15 +1,9 @@
 #grid {
-    height: 400px;
-    width: 400px;
+    height: 640px;
+    width: 640px;
     display: flex;
     flex-wrap: wrap;
-    outline: black solid 10px;
-}
-
-.pixel {
-    height: 100px;
-    width: 100px;
-    background-color: white;
+    outline: black solid 2px;
 }
 
 [data-hover="true"] {
