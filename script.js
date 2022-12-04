@@ -88,23 +88,44 @@ grid.addEventListener('mouseout', function(e){
 //#endregion
 
 
+
 // #region Brush color
 
 // Get elements
 const colorPicker = document.querySelector('#colorPicker');
+const currentColor = document.querySelector('#currentColor')
+const defaultColors = document.querySelector('#defaultColors'); 
 
 // Set default brush color
 let brushColor = 'black';
+updateCurrentColor()
+
+// Show current brush color
+function updateCurrentColor() {
+    currentColor.style.backgroundColor = brushColor;
+}
 
 // Change brush color when new color is picked
 colorPicker.addEventListener('change', function() {
     brushColor = colorPicker.value;
+    updateCurrentColor()
 })
 
+// Default color section
+const defaultColorArray = ['black', 'gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
 
+function createDefaultColorButton(colorName) {
+    buttonName = colorName + 'Button';
+    buttonName = document.createElement('button');
+    buttonName.innerText = colorName;
+    buttonName.addEventListener('click', function() {
+        brushColor = colorName;
+        updateCurrentColor()
+    })
+    defaultColors.append(buttonName);
+}
 
-
-
+defaultColorArray.forEach(createDefaultColorButton);
 
 
 
