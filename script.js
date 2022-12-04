@@ -1,8 +1,12 @@
 // Grid generation
 
+// Get elements
 const grid = document.querySelector('#grid');
-const gridSlider = document.querySelector('#gridSlider');
-const gridSizeConfirm = document.querySelector('#gridSizeConfirm');
+const gridSizeSlider = document.querySelector('#gridSizeSlider');
+const gridSizeValue = document.querySelector('#gridSizeValue');
+const gridSizeButton = document.querySelector('#gridSizeButton');
+
+const defaultGridSize = 16;
 const gridPixelSize = 640;
 let currentGridSize;
 
@@ -25,17 +29,18 @@ function createGrid(gridSize){
     }
 }
 
-// Create default grid first
-createGrid(16);
+// Create default grid first 
+createGrid(defaultGridSize);
+gridSizeValue.innerText = defaultGridSize + ' px';
 
-// Slider to select new gird size
-gridSlider.oninput = function() {
+// Select new grid size with slider
+gridSizeSlider.oninput = function() {
     currentGridSize = parseInt(this.value);
-    console.log(currentGridSize);
+    gridSizeValue.innerText = this.value + ' px';
 }
 
-// Confirm button to change grid size
-gridSizeConfirm.addEventListener('click', function() {
+// Apply new grid size with button
+gridSizeButton.addEventListener('click', function() {
     createGrid(currentGridSize)
 });
 

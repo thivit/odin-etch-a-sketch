@@ -7,8 +7,14 @@
         <title>Etch-a-sketch</title>
     </head>
     <body>
+
         <div id="grid"></div>
-        <input type="range" min="8" max="64" step="16" value="16" id="gridSlider">
-        <button id="gridSizeConfirm">CONFIRM</button>
+
+        <div id="gridSize">
+            <input id="gridSizeSlider" type="range" min="16" max="64" step="16" value="16">
+            <span id="gridSizeValue"></span>
+            <button id="gridSizeButton">CONFIRM</button>
+        </div>
+
     </body>
 </html>
