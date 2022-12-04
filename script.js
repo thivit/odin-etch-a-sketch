@@ -1,4 +1,4 @@
-// Grid generation
+// #region Grid generation
 
 // Get elements
 const grid = document.querySelector('#grid');
@@ -44,10 +44,39 @@ gridSizeButton.addEventListener('click', function() {
     createGrid(currentGridSize)
 });
 
+// #endregion
 
 
+// #region Drawing mechanics
 
+// Disallow user from dragging elements which prevents brush from drawing when mouse is not clicked
+document.addEventListener("dragstart", function(e) {
+    e.preventDefault();
+  })
 
+// Colors first pixel user clicked on
+grid.addEventListener('mousedown', function(e){
+    e.target.style.backgroundColor = 'blue';
+})
+
+// Colors pixels hovered over if mouse click is held down
+let isMouseClicked = false;
+
+document.addEventListener('mousedown', function() {
+    isMouseClicked = true;
+})
+
+document.addEventListener('mouseup', function() {
+    isMouseClicked = false;
+})
+
+grid.addEventListener('mouseover', function(e) {
+    if(isMouseClicked){
+        e.target.style.backgroundColor = 'blue';
+    }
+})
+
+//#endregion
 
 
 
@@ -58,14 +87,12 @@ gridSizeButton.addEventListener('click', function() {
 
 // Change color of pixel when hovered over
 grid.addEventListener('mouseover', function(e){
-    e.target.setAttribute('data-hover', 'true');
+    e.target.setAttribute('data-hovered', 'true');
 })
 grid.addEventListener('mouseout', function(e){
-    e.target.removeAttribute('data-hover');
+    e.target.removeAttribute('data-hovered');
 })
 
-// Change color of pixel when clicked
-grid.addEventListener('mousedown', function(e){
-    e.target.style.backgroundColor = 'blue';
-})
+
+
 

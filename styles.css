@@ -6,6 +6,10 @@
     outline: black solid 2px;
 }
 
-[data-hover="true"] {
+[data-hovered="true"] {
     background-color: lightblue;
+}
+
+[data-colored="true"] {
+    background-color: blue;
 }
