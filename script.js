@@ -34,10 +34,10 @@ createGrid(defaultGridSize);
 gridSizeValue.innerText = defaultGridSize + ' px';
 
 // Select new grid size with slider
-gridSizeSlider.oninput = function() {
+gridSizeSlider.addEventListener('input', function() {
     currentGridSize = parseInt(this.value);
     gridSizeValue.innerText = this.value + ' px';
-}
+})
 
 // Apply new grid size with button
 gridSizeButton.addEventListener('click', function() {
@@ -47,19 +47,20 @@ gridSizeButton.addEventListener('click', function() {
 // #endregion
 
 
+
 // #region Drawing mechanics
 
-// Disallow user from dragging elements which prevents brush from drawing when mouse is not clicked
+// Disallow user from dragging elements which fixes brush from drawing when mouse is not clicked
 document.addEventListener("dragstart", function(e) {
     e.preventDefault();
   })
 
-// Colors first pixel user clicked on
+// Color first pixel user clicked on
 grid.addEventListener('mousedown', function(e){
-    e.target.style.backgroundColor = 'blue';
+    e.target.style.backgroundColor = brushColor;
 })
 
-// Colors pixels hovered over if mouse click is held down
+// Color pixels hovered over if mouse click is held down
 let isMouseClicked = false;
 
 document.addEventListener('mousedown', function() {
@@ -72,26 +73,41 @@ document.addEventListener('mouseup', function() {
 
 grid.addEventListener('mouseover', function(e) {
     if(isMouseClicked){
-        e.target.style.backgroundColor = 'blue';
+        e.target.style.backgroundColor = brushColor;
     }
 })
 
-//#endregion
-
-
-
-
-
-
-
-
-// Change color of pixel when hovered over
+// Highlight pixels temporarily when hovered over 
 grid.addEventListener('mouseover', function(e){
     e.target.setAttribute('data-hovered', 'true');
 })
 grid.addEventListener('mouseout', function(e){
     e.target.removeAttribute('data-hovered');
 })
+
+//#endregion
+
+
+// #region Brush color
+
+// Get elements
+const colorPicker = document.querySelector('#colorPicker');
+
+// Set default brush color
+let brushColor = 'black';
+
+// Change brush color when new color is picked
+colorPicker.addEventListener('change', function() {
+    brushColor = colorPicker.value;
+})
+
+
+
+
+
+
+
+
 
 
 
