@@ -55,29 +55,23 @@ gridSizeButton.addEventListener('click', function() {
 document.addEventListener("dragstart", function(e) {
     e.preventDefault();
   })
-
 // Color first pixel user clicked on
 grid.addEventListener('mousedown', function(e){
     e.target.style.backgroundColor = brushColor;
 })
-
-// Color pixels hovered over if mouse click is held down
+// Color pixels if mouse click is held down
 let isMouseClicked = false;
-
 document.addEventListener('mousedown', function() {
     isMouseClicked = true;
 })
-
 document.addEventListener('mouseup', function() {
     isMouseClicked = false;
 })
-
 grid.addEventListener('mouseover', function(e) {
     if(isMouseClicked){
         e.target.style.backgroundColor = brushColor;
     }
 })
-
 // Highlight pixels temporarily when hovered over 
 grid.addEventListener('mouseover', function(e){
     e.target.setAttribute('data-hovered', 'true');
