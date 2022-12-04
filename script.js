@@ -2,26 +2,20 @@
 
 // Get elements
 const grid = document.querySelector('#grid');
-const gridSizeSlider = document.querySelector('#gridSizeSlider');
 const gridSizeValue = document.querySelector('#gridSizeValue');
+const gridSizeSlider = document.querySelector('#gridSizeSlider');
 const gridSizeButton = document.querySelector('#gridSizeButton');
 
-const defaultGridSize = 16;
-const gridPixelSize = 640;
-let currentGridSize;
-
-function createGrid(gridSize){
-
+// Generate pixels in the grid 
+function createPixels(rootPixelCount){
     // Remove all current pixels in the grid
-    while (grid.firstChild) {
-        grid.removeChild(grid.lastChild);
-    }
-
-    // Generate new grid
-    let gridSizeSquared = gridSize ** 2;
-    let pixelSize = gridPixelSize / gridSize; 
-
-    for (let i = 0; i < gridSizeSquared; i++) {
+    while (grid.firstChild) grid.removeChild(grid.lastChild);
+    // Value of gridHeight from css file under #grid id
+    const gridHeight = 640;
+    let pixelCount = rootPixelCount ** 2;
+    let pixelSize = gridHeight / rootPixelCount; 
+    // Generate pixels 
+    for (let i = 0; i < pixelCount; i++) {
         const pixel = document.createElement('div');
         pixel.style.height = pixelSize + 'px';
         pixel.style.width = pixelSize + 'px';
@@ -29,19 +23,26 @@ function createGrid(gridSize){
     }
 }
 
-// Create default grid first 
-createGrid(defaultGridSize);
-gridSizeValue.innerText = defaultGridSize + ' px';
+// Update value shown for grid size
+function updateGridValue(gridValue) {
+    gridSizeValue.innerText = `Grid Size: ${gridValue} x ${gridValue}`;
+}
 
-// Select new grid size with slider
+// Create the default number of pixels when site first loads
+const defaultRootPixelCount = 16;
+createPixels(defaultRootPixelCount);
+updateGridValue(defaultRootPixelCount);
+
+// Change grid size with a new pixel count
+let rootPixelCount;
+// Drag slider to select new pixel count
 gridSizeSlider.addEventListener('input', function() {
-    currentGridSize = parseInt(this.value);
-    gridSizeValue.innerText = this.value + ' px';
+    rootPixelCount = parseInt(this.value);
+    updateGridValue(this.value);
 })
-
-// Apply new grid size with button
+// Click button to generate the new pixels
 gridSizeButton.addEventListener('click', function() {
-    createGrid(currentGridSize)
+    createPixels(rootPixelCount)
 });
 
 // #endregion
@@ -127,9 +128,5 @@ function createDefaultColorButton(colorName) {
 
 defaultColorArray.forEach(createDefaultColorButton);
 
-
-
-
-
-
+//#endregion
 
