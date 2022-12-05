@@ -86,41 +86,75 @@ grid.addEventListener('mouseout', function(e){
 
 // #region Brush color
 
-// Get elements
+// Get Elements
 const colorPicker = document.querySelector('#colorPicker');
-const currentColor = document.querySelector('#currentColor')
-const defaultColors = document.querySelector('#defaultColors'); 
+const currentColor = document.querySelector('#currentColor');
+const recentColors = document.querySelector('#recentColors');
+const defaultColors = document.querySelector('#defaultColors');
 
-// Set default brush color
-let brushColor = 'black';
-updateCurrentColor()
+let brushColor;
 
-// Show current brush color
+// Update the display of the current brush color
 function updateCurrentColor() {
     currentColor.style.backgroundColor = brushColor;
 }
 
-// Change brush color when new color is picked
-colorPicker.addEventListener('change', function() {
-    brushColor = colorPicker.value;
-    updateCurrentColor()
-})
-
-// Default color section
-const defaultColorArray = ['black', 'gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
-
-function createDefaultColorButton(colorName) {
+// Create button for brush color
+function createColorButton(colorName, parentNode) {
     buttonName = colorName + 'Button';
     buttonName = document.createElement('button');
     buttonName.innerText = colorName;
     buttonName.addEventListener('click', function() {
         brushColor = colorName;
-        updateCurrentColor()
+        addToRecentColors(colorName);
+        updateCurrentColor();
     })
-    defaultColors.append(buttonName);
+    parentNode.append(buttonName);
 }
 
-defaultColorArray.forEach(createDefaultColorButton);
+// Create section of recent colors
+let recentColorArray = [];
+function addToRecentColors(colorName) {
+
+    // Check if color is already available 
+    if (recentColorArray.includes(colorName)) {
+        // Remove old instance of the brush color first
+        recentColorArray.splice(recentColorArray.indexOf(colorName), 1);
+        recentColorArray.unshift(colorName);
+    // Check if recent color section if full
+    } else if (recentColorArray.length >= 10) {
+        recentColorArray.pop();
+        recentColorArray.unshift(colorName);
+    } else {
+        recentColorArray.unshift(colorName);
+    }
+ 
+    // Remove all current recent color buttons
+    while (recentColors.firstChild) recentColors.removeChild(recentColors.lastChild);
+
+    // Generate new color buttons
+    for (let i = 0; i < recentColorArray.length; i++) {
+        createColorButton(recentColorArray[i], recentColors);
+    }
+
+}
+
+// Create section of default colors
+const defaultColorArray = ['black', 'gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
+for (let i = 0; i < defaultColorArray.length; i++) {
+    createColorButton(defaultColorArray[i], defaultColors);
+}
+
+// Change brush color with color picker
+colorPicker.addEventListener('change', function() {
+    brushColor = colorPicker.value;
+    addToRecentColors (brushColor);
+    updateCurrentColor()
+})
+
+// Set the default brush color when site first loads
+const defaultBrushColor = 'black';
+brushColor = defaultBrushColor;
+updateCurrentColor()
 
 //#endregion
-
