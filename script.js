@@ -1,7 +1,24 @@
+// #region Get elements
+const grid = document.querySelector('#grid');
+// Grid size
+const gridSizeValue = document.querySelector('#gridSizeValue');
+const gridSizeSlider = document.querySelector('#gridSizeSlider');
+const gridSizeButton = document.querySelector('#gridSizeButton');
+// Brush color
+const colorPicker = document.querySelector('#colorPicker');
+const currentColor = document.querySelector('#currentColor');
+const recentColors = document.querySelector('#recentColors');
+const defaultColors = document.querySelector('#defaultColors');
+// Tools
+const gridLinesButton = document.querySelector('#gridLines');
+const clearButton = document.querySelector('#clear');
+// #endregion
+
+
+
 // #region Tools
 
 // Toggle grid lines
-const gridLinesButton = document.querySelector('#gridLines');
 let gridLines = false;
 gridLinesButton.addEventListener('click', function() {
     if (gridLines) {
@@ -17,17 +34,18 @@ gridLinesButton.addEventListener('click', function() {
     }
 })
 
-//#endregion
+// Clear 
+clearButton.addEventListener('click', function () {
+    for (let i = 0; i < grid.childElementCount; i++) {
+        grid.childNodes[i].style.backgroundColor = 'transparent';
+     }
+})
+
+// #endregion
 
 
 
 // #region Grid generation
-
-// Get elements
-const grid = document.querySelector('#grid');
-const gridSizeValue = document.querySelector('#gridSizeValue');
-const gridSizeSlider = document.querySelector('#gridSizeSlider');
-const gridSizeButton = document.querySelector('#gridSizeButton');
 
 // Generate pixels in the grid 
 function createPixels(rootPixelCount){
@@ -77,7 +95,6 @@ gridSizeButton.addEventListener('click', function() {
 
 
 // #region Drawing and erasing mechanics
-
 const leftMouseButtonID = 0;
 const rightMouseButtonID = 2;
 let mouseButtonFired;
@@ -140,13 +157,6 @@ grid.addEventListener('contextmenu', function(e) {
 
 
 // #region Brush color
-
-// Get Elements
-const colorPicker = document.querySelector('#colorPicker');
-const currentColor = document.querySelector('#currentColor');
-const recentColors = document.querySelector('#recentColors');
-const defaultColors = document.querySelector('#defaultColors');
-
 let brushColor;
 
 // Update the display of the current brush color

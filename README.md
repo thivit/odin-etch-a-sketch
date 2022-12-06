@@ -10,6 +10,7 @@ Planned features:
 - Brush size
 - Toggle between tools with keyboard buttons
 - Custom cursor
+- Color picker
 
 
 Implemented features:
