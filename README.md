@@ -4,7 +4,6 @@ Solution for The Odin Project Foundations project: Etch-a-Sketch
 
 Planned features:
 
-- Right-click to erase
 - Rainbow brush
 - Clear
 - Fill
@@ -19,3 +18,4 @@ Implemented features:
 - Click-and-drag drawing
 - Recent colors section
 - Grid line toggling
+- Right-click to erase
