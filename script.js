@@ -77,50 +77,63 @@ gridSizeButton.addEventListener('click', function() {
 
 
 // #region Drawing and erasing mechanics
-// Disallow user from dragging elements which fixes brush from drawing when mouse is not clicked
-document.addEventListener("dragstart", function(e) {
-    e.preventDefault();
-  })
-// Prevent context menu from firing when right click occurs
-grid.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
-// Color or erase first pixel user clicked on
-const eraseColor = 'white'
+
+const leftMouseButtonID = 0;
+const rightMouseButtonID = 2;
 let mouseButtonFired;
+let isMouseClicked;
+
+function changeBrushMode(eventObject, brushMode) {
+    if (brushMode === 'draw') {
+        eventObject.target.style.backgroundColor = brushColor;
+    } else if (brushMode === 'erase') {
+        eventObject.target.style.backgroundColor = 'transparent';
+    }
+}
+
 grid.addEventListener('mousedown', function(e){
-    if (e.button === 0) {
-        e.target.style.backgroundColor = brushColor;
-        mouseButtonFired = 'left';
-    } else if (e.button === 2) {
-        e.target.style.backgroundColor = 'transparent';
-        mouseButtonFired = 'right';
+    // Start listening for drag-drawing
+    isMouseClicked = true;
+    // Draw or erase and record which mouse button initiated it
+    if (e.button === leftMouseButtonID) {
+        changeBrushMode(e, 'draw');
+        mouseButtonFired = leftMouseButtonID;
+    } else if (e.button === rightMouseButtonID) {
+        changeBrushMode(e, 'erase');
+        mouseButtonFired = rightMouseButtonID;
     }
 })
-// Color pixels if mouse click is held down
-let isMouseClicked = false;
-document.addEventListener('mousedown', function() {
-    isMouseClicked = true;
-})
+
 document.addEventListener('mouseup', function() {
     isMouseClicked = false;
 })
+
 grid.addEventListener('mouseover', function(e) {
     if(isMouseClicked){
-        if (mouseButtonFired === 'left') {
-            e.target.style.backgroundColor = brushColor;
-        } else if (mouseButtonFired === 'right') {
-            e.target.style.backgroundColor = 'transparent';
+        if (mouseButtonFired === leftMouseButtonID) {
+            changeBrushMode(e, 'draw');
+        } else if (mouseButtonFired === rightMouseButtonID) {
+            changeBrushMode(e, 'erase');
         }
     }
 })
-// Highlight pixels temporarily when hovered over 
+
+// Highlight pixel  when hovered over 
 grid.addEventListener('mouseover', function(e){
     e.target.setAttribute('data-hovered', 'true');
 })
 grid.addEventListener('mouseout', function(e){
     e.target.removeAttribute('data-hovered');
 })
+
+// Disallow user from dragging elements which fixes brush from drawing when mouse is not clicked
+document.addEventListener("dragstart", function(e) {
+    e.preventDefault();
+})
+// Prevent context menu from firing when user erases with right-click
+grid.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
 
 //#endregion
 
