@@ -76,15 +76,26 @@ gridSizeButton.addEventListener('click', function() {
 
 
 
-// #region Drawing mechanics
-
+// #region Drawing and erasing mechanics
 // Disallow user from dragging elements which fixes brush from drawing when mouse is not clicked
 document.addEventListener("dragstart", function(e) {
     e.preventDefault();
   })
-// Color first pixel user clicked on
+// Prevent context menu from firing when right click occurs
+grid.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+// Color or erase first pixel user clicked on
+const eraseColor = 'white'
+let mouseButtonFired;
 grid.addEventListener('mousedown', function(e){
-    e.target.style.backgroundColor = brushColor;
+    if (e.button === 0) {
+        e.target.style.backgroundColor = brushColor;
+        mouseButtonFired = 'left';
+    } else if (e.button === 2) {
+        e.target.style.backgroundColor = 'transparent';
+        mouseButtonFired = 'right';
+    }
 })
 // Color pixels if mouse click is held down
 let isMouseClicked = false;
@@ -96,7 +107,11 @@ document.addEventListener('mouseup', function() {
 })
 grid.addEventListener('mouseover', function(e) {
     if(isMouseClicked){
-        e.target.style.backgroundColor = brushColor;
+        if (mouseButtonFired === 'left') {
+            e.target.style.backgroundColor = brushColor;
+        } else if (mouseButtonFired === 'right') {
+            e.target.style.backgroundColor = 'transparent';
+        }
     }
 })
 // Highlight pixels temporarily when hovered over 
@@ -185,9 +200,6 @@ brushColor = defaultBrushColor;
 updateCurrentColor()
 
 //#endregion
-
-
-
 
 
 

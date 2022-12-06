@@ -7,11 +7,10 @@ Planned features:
 - Right-click to erase
 - Rainbow brush
 - Clear
-- Grid outline
 - Fill
 - Brush size
 - Toggle between tools with keyboard buttons
-- Clear canvas button
+- Custom cursor
 
 
 Implemented features:
@@ -19,3 +18,4 @@ Implemented features:
 - Grid size changer
 - Click-and-drag drawing
 - Recent colors section
+- Grid line toggling
