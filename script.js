@@ -1,3 +1,26 @@
+// #region Tools
+
+// Toggle grid lines
+const gridLinesButton = document.querySelector('#gridLines');
+let gridLines = false;
+gridLinesButton.addEventListener('click', function() {
+    if (gridLines) {
+        for (let i = 0; i < grid.childElementCount; i++) {
+            grid.childNodes[i].removeAttribute('data-outlined');
+         }
+         gridLines = false;
+    } else {
+        for (let i = 0; i < grid.childElementCount; i++) {
+            grid.childNodes[i].setAttribute('data-outlined', 'true');
+         }
+         gridLines = true;
+    }
+})
+
+//#endregion
+
+
+
 // #region Grid generation
 
 // Get elements
@@ -19,6 +42,10 @@ function createPixels(rootPixelCount){
         const pixel = document.createElement('div');
         pixel.style.height = pixelSize + 'px';
         pixel.style.width = pixelSize + 'px';
+        // Keep grid lines on 
+        if (gridLines == true) {
+            pixel.setAttribute('data-outlined', 'true');
+        }
         grid.append(pixel);
     }
 }
@@ -158,3 +185,10 @@ brushColor = defaultBrushColor;
 updateCurrentColor()
 
 //#endregion
+
+
+
+
+
+
+

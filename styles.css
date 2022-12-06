@@ -6,6 +6,11 @@
     outline: black solid 2px;
 }
 
-[data-hovered="true"] {
+[data-outlined = "true"] {
+    outline: black dotted 1px;
+}
+
+
+[data-hovered = "true"] {
     background-color: lightblue;
 }
