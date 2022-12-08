@@ -8,26 +8,27 @@
     </head>
     <body>
 
-        <div id="grid"></div>
-
-        <div id="gridSize">
-            <input id="gridSizeSlider" type="range" min="16" max="64" step="16" value="16">
-            <span id="gridSizeValue"></span>
-            <button id="gridSizeButton">CONFIRM</button>
+        <div id="tools">
+            <button id="gridLines">Grid Lines</button>
+            <button id="clear">Clear</button>
+            <button id="pipette">Pipette</button>
         </div>
 
+        <div id="gridElements">
+            <div id="grid"></div>
+            <div id="gridSize">
+                <input id="gridSizeSlider" type="range" min="16" max="64" step="16" value="16">
+                <span id="gridSizeValue"></span>
+                <button id="gridSizeButton">CONFIRM</button>
+            </div>
+        </div>
+        
         <div id="brushColor">
             <input id="colorPicker" type="color">
             <span id="currentColor">Current Color</span>
             <div id="defaultColors"></div>
             <div id="recentColors"></div>
         </div>
-
-        <div id="tools">
-            <button id="gridLines">Grid Lines</button>
-            <button id="clear">Clear</button>
-            <button id="pipette">Pipette</button>
-        </div>
-    
+        
     </body>
 </html>

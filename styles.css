@@ -14,3 +14,26 @@
 [data-hovered = "true"] {
     background-color: lightblue !important;
 }
+
+
+
+
+body {
+    display: flex;
+    justify-content: space-around;
+}
+
+#tools {
+    display: flex;
+    flex-direction: column;
+}
+
+#gridElements {
+    display: flex;
+    flex-direction: column;
+}
+
+#brushColor {
+    display: flex;
+    flex-direction: column;
+}
