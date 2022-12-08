@@ -17,9 +17,12 @@ const pipetteButton = document.querySelector('#pipette');
 
 
 
-// #region Initialize global variables
-let brushColor;
+// #region Defaults
+const defaultRootPixelCount = 16;
 const defaultBrushColor = 'black';
+const defaultColorArray = ['black', 'gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
+
+
 // #endregion
 
 
@@ -41,22 +44,17 @@ gridLinesButton.addEventListener('click', function() {
          gridLines = true;
     }
 });
-
 // Clear 
 clearButton.addEventListener('click', function () {
     for (let i = 0; i < grid.childElementCount; i++) {
         grid.childNodes[i].style.backgroundColor = 'transparent';
      }
 });
-
 // Pipette
 pipetteButton.addEventListener('click', function() {
-    // Disable drawing
     enableDrawing(false);
-    // Change brush color to eventObject's color
-    function changeBrushColorFromEvent(eventObject) {
+    function changeBrushColor(eventObject) {
         const pixelColor = eventObject.target.style.backgroundColor;
-        // If color pipetted is valid then update brush color, remove listeners and enable drawing
         if (pixelColor !== 'transparent' && pixelColor !== '') {
             updateBrushColor(pixelColor);
             for (let i = 0; i < grid.childElementCount; i++) {
@@ -67,17 +65,14 @@ pipetteButton.addEventListener('click', function() {
     }
     // Add listeners to all the pixels
     for (let i = 0; i < grid.childElementCount; i++) {
-        grid.childNodes[i].addEventListener('mousedown', changeBrushColorFromEvent);
+        grid.childNodes[i].addEventListener('mousedown', changeBrushColor);
     }
 });
-
 // #endregion
 
 
 
 // #region Grid generation
-
-// Generate pixels in the grid 
 function createPixels(rootPixelCount){
     // Remove all current pixels in the grid
     while (grid.firstChild) grid.removeChild(grid.lastChild);
@@ -98,29 +93,20 @@ function createPixels(rootPixelCount){
         grid.append(pixel);
     }
 }
-
-// Update value shown for grid size
 function updateGridValue(gridValue) {
     gridSizeValue.innerText = `Grid Size: ${gridValue} x ${gridValue}`;
 }
 
-// Create the default number of pixels when site first loads
-const defaultRootPixelCount = 16;
-createPixels(defaultRootPixelCount);
-updateGridValue(defaultRootPixelCount);
-
-// Change grid size with a new pixel count
 let rootPixelCount;
-// Drag slider to select new pixel count
+// New grid size
 gridSizeSlider.addEventListener('input', function() {
     rootPixelCount = parseInt(this.value);
     updateGridValue(this.value);
 });
-// Click button to generate the new pixels
+// Confirm grid size change
 gridSizeButton.addEventListener('click', function() {
     createPixels(rootPixelCount)
 });
-
 // #endregion
 
 
@@ -131,7 +117,7 @@ const rightMouseButtonID = 2;
 let mouseButtonFired;
 let isMouseClicked;
 
-// Change between drawing and erasing modes
+// Drawing || Erasing mode changing
 function changeBrushMode(eventObject, brushMode) {
     if (brushMode === 'draw') {
         eventObject.target.style.backgroundColor = brushColor;
@@ -139,7 +125,6 @@ function changeBrushMode(eventObject, brushMode) {
         eventObject.target.style.backgroundColor = 'transparent';
     }
 }
-// Modify pixel on mousedown
 function modifyPixelOnClick(eventObject) {
     isMouseClicked = true;
     // Draw or erase and record which mouse button initiated it
@@ -151,7 +136,6 @@ function modifyPixelOnClick(eventObject) {
         mouseButtonFired = rightMouseButtonID;
     }
 }
-// Modify pixel on mouseover
 function modifyPixelOnHover(eventObject) {
     if(isMouseClicked){
         if (mouseButtonFired === leftMouseButtonID) {
@@ -161,22 +145,15 @@ function modifyPixelOnHover(eventObject) {
         }
     }
 }
-// Record mouseup
 function stopMouseClick() {
     isMouseClicked = false;
 }
-// Highlight pixel on mouseover 
 function highlightPixel(eventObject) {
     eventObject.target.setAttribute('data-hovered', 'true');
 }
-// Un-highlight on pixel on mouseout
 function unHighlightPixel(eventObject) {
     eventObject.target.removeAttribute('data-hovered');
 }
-
-grid.addEventListener('mouseover', highlightPixel);
-grid.addEventListener('mouseout', unHighlightPixel);
-
 function enableDrawing(boolean = true) {
     if (boolean) {
         grid.addEventListener('mousedown', modifyPixelOnClick);
@@ -189,6 +166,9 @@ function enableDrawing(boolean = true) {
     }
 }
 
+grid.addEventListener('mouseover', highlightPixel);
+grid.addEventListener('mouseout', unHighlightPixel);
+
 // Disallow user from dragging elements which fixes brush from drawing when mouse is not clicked
 document.addEventListener("dragstart", function(e) {
     e.preventDefault();
@@ -197,24 +177,18 @@ document.addEventListener("dragstart", function(e) {
 grid.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 });
-
-// Enable drawing when site first loads
-enableDrawing();
-
 //#endregion
 
 
 
 // #region Brush color
-
+let brushColor;
 // Change the brush color, add to recent colors, change the current color display
 function updateBrushColor(color) {
     brushColor = color;
     addToRecentColors(color);
     currentColor.style.backgroundColor = color;
 }
-
-// Create button for the brush color
 function createColorButton(colorName, parentNode) {
     buttonName = colorName + 'Button';
     buttonName = document.createElement('button');
@@ -224,11 +198,9 @@ function createColorButton(colorName, parentNode) {
     })
     parentNode.append(buttonName);
 }
-
-// Create section of recent colors
+// Recent colors
 let recentColorArray = [];
 function addToRecentColors(colorName) {
-
     // Check if color is already available 
     if (recentColorArray.includes(colorName)) {
         // Remove old instance of the brush color first
@@ -241,33 +213,31 @@ function addToRecentColors(colorName) {
     } else {
         recentColorArray.unshift(colorName);
     }
- 
     // Remove all current recent color buttons
-    while (recentColors.firstChild) recentColors.removeChild(recentColors.lastChild);
-
+    while (recentColors.firstChild) recentColors.removeChild(recentColors.lastChild)
     // Generate new color buttons
     for (let i = 0; i < recentColorArray.length; i++) {
         createColorButton(recentColorArray[i], recentColors);
     }
-
 }
-
-// Create section of default colors
-const defaultColorArray = ['black', 'gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
+// Default colors
 for (let i = 0; i < defaultColorArray.length; i++) {
     createColorButton(defaultColorArray[i], defaultColors);
 }
-
-// Change brush color with color picker
+// Color picker
 colorPicker.addEventListener('change', function() {
     updateBrushColor(colorPicker.value);
 });
 
-// Set the default brush color when site first loads
-updateBrushColor(defaultBrushColor);
-
 //#endregion
 
 
+
+// #region Load first
+createPixels(defaultRootPixelCount);
+updateGridValue(defaultRootPixelCount);
+updateBrushColor(defaultBrushColor);
+enableDrawing();
+// #endregion
 
 
