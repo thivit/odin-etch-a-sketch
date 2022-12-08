@@ -19,6 +19,7 @@ const pipetteButton = document.querySelector('#pipette');
 
 // #region Initialize global variables
 let brushColor;
+const defaultBrushColor = 'black';
 // #endregion
 
 
@@ -49,12 +50,15 @@ clearButton.addEventListener('click', function () {
 });
 
 // Pipette
-pipetteButton.addEventListener('click', function(e) {
-    brushColor = e.target.style.backgroundColor;
-});
-
+pipetteButton.addEventListener('click', pipette);
 function pipette(eventObject) {
-
+    enableDrawing(false);  
+    for (let i = 0; i < grid.childElementCount; i++) {
+        grid.childNodes[i].addEventListener('mousedown', function(e) {
+            brushColor = e.target.style.backgroundColor;
+            updateCurrentColor(brushColor);
+        });
+     } 
 }
 
 // #endregion
@@ -76,6 +80,7 @@ function createPixels(rootPixelCount){
         const pixel = document.createElement('div');
         pixel.style.height = pixelSize + 'px';
         pixel.style.width = pixelSize + 'px';
+        pixel.setAttribute('class', 'pixel');
         // Keep grid lines on 
         if (gridLines == true) {
             pixel.setAttribute('data-outlined', 'true');
@@ -192,20 +197,20 @@ enableDrawing();
 
 // #region Brush color
 
-// Update the display of the current brush color
-function updateCurrentColor() {
-    currentColor.style.backgroundColor = brushColor;
+// Change the brush color, add to recent colors, change the current color display
+function updateBrushColor(color) {
+    brushColor = color;
+    addToRecentColors(color);
+    currentColor.style.backgroundColor = color;
 }
 
-// Create button for brush color
+// Create button for the brush color
 function createColorButton(colorName, parentNode) {
     buttonName = colorName + 'Button';
     buttonName = document.createElement('button');
     buttonName.innerText = colorName;
     buttonName.addEventListener('click', function() {
-        brushColor = colorName;
-        addToRecentColors(colorName);
-        updateCurrentColor();
+        updateBrushColor(colorName);
     })
     parentNode.append(buttonName);
 }
@@ -245,15 +250,11 @@ for (let i = 0; i < defaultColorArray.length; i++) {
 
 // Change brush color with color picker
 colorPicker.addEventListener('change', function() {
-    brushColor = colorPicker.value;
-    addToRecentColors (brushColor);
-    updateCurrentColor();
+    updateBrushColor(colorPicker.value);
 });
 
 // Set the default brush color when site first loads
-const defaultBrushColor = 'black';
-brushColor = defaultBrushColor;
-updateCurrentColor();
+updateBrushColor(defaultBrushColor);
 
 //#endregion
 
