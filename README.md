@@ -9,7 +9,6 @@ Planned features:
 - Brush size
 - Toggle between tools with keyboard buttons
 - Custom cursor
-- Color pipette
 - Shade and lighten
 
 
@@ -20,3 +19,4 @@ Implemented features:
 - Recent colors section
 - Grid line toggling
 - Right-click to erase
+- Color pipette

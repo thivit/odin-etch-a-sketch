@@ -50,16 +50,26 @@ clearButton.addEventListener('click', function () {
 });
 
 // Pipette
-pipetteButton.addEventListener('click', pipette);
-function pipette(eventObject) {
-    enableDrawing(false);  
+pipetteButton.addEventListener('click', function() {
+    // Disable drawing
+    enableDrawing(false);
+    // Change brush color to eventObject's color
+    function changeBrushColorFromEvent(eventObject) {
+        const pixelColor = eventObject.target.style.backgroundColor;
+        // If color pipetted is valid then update brush color, remove listeners and enable drawing
+        if (pixelColor !== 'transparent' && pixelColor !== '') {
+            updateBrushColor(pixelColor);
+            for (let i = 0; i < grid.childElementCount; i++) {
+                grid.childNodes[i].removeEventListener('mousedown', changeBrushColorFromEvent);
+            }
+            enableDrawing();
+        }
+    }
+    // Add listeners to all the pixels
     for (let i = 0; i < grid.childElementCount; i++) {
-        grid.childNodes[i].addEventListener('mousedown', function(e) {
-            brushColor = e.target.style.backgroundColor;
-            updateCurrentColor(brushColor);
-        });
-     } 
-}
+        grid.childNodes[i].addEventListener('mousedown', changeBrushColorFromEvent);
+    }
+});
 
 // #endregion
 
