@@ -58,7 +58,7 @@ pipetteButton.addEventListener('click', function() {
         if (pixelColor !== 'transparent' && pixelColor !== '') {
             updateBrushColor(pixelColor);
             for (let i = 0; i < grid.childElementCount; i++) {
-                grid.childNodes[i].removeEventListener('mousedown', changeBrushColorFromEvent);
+                grid.childNodes[i].removeEventListener('mousedown', changeBrushColor);
             }
             enableDrawing();
         }
