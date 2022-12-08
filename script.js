@@ -12,6 +12,13 @@ const defaultColors = document.querySelector('#defaultColors');
 // Tools
 const gridLinesButton = document.querySelector('#gridLines');
 const clearButton = document.querySelector('#clear');
+const pipetteButton = document.querySelector('#pipette');
+// #endregion
+
+
+
+// #region Initialize global variables
+let brushColor;
 // #endregion
 
 
@@ -32,14 +39,23 @@ gridLinesButton.addEventListener('click', function() {
          }
          gridLines = true;
     }
-})
+});
 
 // Clear 
 clearButton.addEventListener('click', function () {
     for (let i = 0; i < grid.childElementCount; i++) {
         grid.childNodes[i].style.backgroundColor = 'transparent';
      }
-})
+});
+
+// Pipette
+pipetteButton.addEventListener('click', function(e) {
+    brushColor = e.target.style.backgroundColor;
+});
+
+function pipette(eventObject) {
+
+}
 
 // #endregion
 
@@ -84,7 +100,7 @@ let rootPixelCount;
 gridSizeSlider.addEventListener('input', function() {
     rootPixelCount = parseInt(this.value);
     updateGridValue(this.value);
-})
+});
 // Click button to generate the new pixels
 gridSizeButton.addEventListener('click', function() {
     createPixels(rootPixelCount)
@@ -100,6 +116,7 @@ const rightMouseButtonID = 2;
 let mouseButtonFired;
 let isMouseClicked;
 
+// Change between drawing and erasing modes
 function changeBrushMode(eventObject, brushMode) {
     if (brushMode === 'draw') {
         eventObject.target.style.backgroundColor = brushColor;
@@ -107,57 +124,73 @@ function changeBrushMode(eventObject, brushMode) {
         eventObject.target.style.backgroundColor = 'transparent';
     }
 }
-
-grid.addEventListener('mousedown', function(e){
-    // Start listening for drag-drawing
+// Modify pixel on mousedown
+function modifyPixelOnClick(eventObject) {
     isMouseClicked = true;
     // Draw or erase and record which mouse button initiated it
-    if (e.button === leftMouseButtonID) {
-        changeBrushMode(e, 'draw');
+    if (eventObject.button === leftMouseButtonID) {
+        changeBrushMode(eventObject, 'draw');
         mouseButtonFired = leftMouseButtonID;
-    } else if (e.button === rightMouseButtonID) {
-        changeBrushMode(e, 'erase');
+    } else if (eventObject.button === rightMouseButtonID) {
+        changeBrushMode(eventObject, 'erase');
         mouseButtonFired = rightMouseButtonID;
     }
-})
-
-document.addEventListener('mouseup', function() {
-    isMouseClicked = false;
-})
-
-grid.addEventListener('mouseover', function(e) {
+}
+// Modify pixel on mouseover
+function modifyPixelOnHover(eventObject) {
     if(isMouseClicked){
         if (mouseButtonFired === leftMouseButtonID) {
-            changeBrushMode(e, 'draw');
+            changeBrushMode(eventObject, 'draw');
         } else if (mouseButtonFired === rightMouseButtonID) {
-            changeBrushMode(e, 'erase');
+            changeBrushMode(eventObject, 'erase');
         }
     }
-})
+}
+// Record mouseup
+function stopMouseClick() {
+    isMouseClicked = false;
+}
+// Highlight pixel on mouseover 
+function highlightPixel(eventObject) {
+    eventObject.target.setAttribute('data-hovered', 'true');
+}
+// Un-highlight on pixel on mouseout
+function unHighlightPixel(eventObject) {
+    eventObject.target.removeAttribute('data-hovered');
+}
 
-// Highlight pixel  when hovered over 
-grid.addEventListener('mouseover', function(e){
-    e.target.setAttribute('data-hovered', 'true');
-})
-grid.addEventListener('mouseout', function(e){
-    e.target.removeAttribute('data-hovered');
-})
+grid.addEventListener('mouseover', highlightPixel);
+grid.addEventListener('mouseout', unHighlightPixel);
+
+function enableDrawing(boolean = true) {
+    if (boolean) {
+        grid.addEventListener('mousedown', modifyPixelOnClick);
+        document.addEventListener('mouseup', stopMouseClick);
+        grid.addEventListener('mouseover', modifyPixelOnHover);
+    } else if (boolean === false) {
+        grid.removeEventListener('mousedown', modifyPixelOnClick);
+        document.removeEventListener('mouseup', stopMouseClick);
+        grid.removeEventListener('mouseover', modifyPixelOnHover);
+    }
+}
 
 // Disallow user from dragging elements which fixes brush from drawing when mouse is not clicked
 document.addEventListener("dragstart", function(e) {
     e.preventDefault();
-})
+});
 // Prevent context menu from firing when user erases with right-click
 grid.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 });
+
+// Enable drawing when site first loads
+enableDrawing();
 
 //#endregion
 
 
 
 // #region Brush color
-let brushColor;
 
 // Update the display of the current brush color
 function updateCurrentColor() {
@@ -214,13 +247,13 @@ for (let i = 0; i < defaultColorArray.length; i++) {
 colorPicker.addEventListener('change', function() {
     brushColor = colorPicker.value;
     addToRecentColors (brushColor);
-    updateCurrentColor()
-})
+    updateCurrentColor();
+});
 
 // Set the default brush color when site first loads
 const defaultBrushColor = 'black';
 brushColor = defaultBrushColor;
-updateCurrentColor()
+updateCurrentColor();
 
 //#endregion
 

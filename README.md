@@ -5,12 +5,12 @@ Solution for The Odin Project Foundations project: Etch-a-Sketch
 Planned features:
 
 - Rainbow brush
-- Clear
 - Fill
 - Brush size
 - Toggle between tools with keyboard buttons
 - Custom cursor
-- Color picker
+- Color pipette
+- Shade and lighten
 
 
 Implemented features:
