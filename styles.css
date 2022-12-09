@@ -1,3 +1,4 @@
+/* Grid styles */
 #grid {
     height: 640px;
     width: 640px;
@@ -10,17 +11,43 @@
     outline: black dotted 1px;
 }
 
-
 [data-hovered = "true"] {
     background-color: lightblue !important;
 }
 
+/* Color sections styles */
+#currentColor {
+    height: 3.2rem;
+    width: 3.2rem;
+    margin: 0.2rem;
+    border: 2px solid rgb(118, 118, 118);
+}
 
+#colorPicker {
+    height: 3.2rem;
+    width: 3.2rem;
+  }
 
+.colorButton {
+   height: 1.5rem;
+   width: 1.5rem;
+   margin: 0.1rem;
+}
 
+#currentColorSection,
+#colorPickerSection,
+#defaultColorSection,
+#recentColorSection  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+/* Document structure */
 body {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 #tools {
@@ -36,4 +63,37 @@ body {
 #brushColor {
     display: flex;
     flex-direction: column;
+    flex: 0 0 auto;
+    width: 6.8rem;
+    align-items: center;
+    margin-left: 1rem;
 }
+
+/* Tool tips */
+/* 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+ 
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+*/

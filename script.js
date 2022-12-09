@@ -20,15 +20,25 @@ const pipetteButton = document.querySelector('#pipette');
 // #region Defaults
 const defaultRootPixelCount = 16;
 const defaultBrushColor = 'black';
-const defaultColorArray = ['black', 'gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
-
-
+const defaultColorArray = [
+    'white',
+    'gray',
+    'black',  
+    'purple', 
+    'pink', 
+    'red', 
+    'orange', 
+    'yellow', 
+    'green',
+    'teal',
+    'blue',
+    'navy'
+]
 // #endregion
 
 
 
 // #region Tools
-
 // Toggle grid lines
 let gridLines = false;
 gridLinesButton.addEventListener('click', function() {
@@ -192,7 +202,8 @@ function updateBrushColor(color) {
 function createColorButton(colorName, parentNode) {
     buttonName = colorName + 'Button';
     buttonName = document.createElement('button');
-    buttonName.innerText = colorName;
+    buttonName.setAttribute('class', 'colorButton');
+    buttonName.style.backgroundColor = colorName;
     buttonName.addEventListener('click', function() {
         updateBrushColor(colorName);
     })
@@ -228,7 +239,6 @@ for (let i = 0; i < defaultColorArray.length; i++) {
 colorPicker.addEventListener('change', function() {
     updateBrushColor(colorPicker.value);
 });
-
 //#endregion
 
 
