@@ -13,6 +13,7 @@ const defaultColors = document.querySelector('#defaultColors');
 const gridLinesButton = document.querySelector('#gridLines');
 const clearButton = document.querySelector('#clear');
 const pipetteButton = document.querySelector('#pipette');
+const eraserButton = document.querySelector('#eraser');
 // #endregion
 
 
@@ -78,6 +79,17 @@ pipetteButton.addEventListener('click', function() {
         grid.childNodes[i].addEventListener('mousedown', changeBrushColor);
     }
 });
+// Eraser
+let eraser = false;
+eraserButton.addEventListener('click', function() {
+    if (!eraser) {
+        brushColor = 'transparent';
+        eraser = true;
+    } else {
+        brushColor = currentColor.style.backgroundColor;
+        eraser = false;
+    }
+})
 // #endregion
 
 

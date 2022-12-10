@@ -1,4 +1,31 @@
-/* Grid styles */
+/* Document structure */
+body {
+    display: flex;
+    justify-content: center;
+}
+
+/* Tools */
+#tools {
+    display: flex;
+    flex-wrap: wrap;
+    width: 8.8rem;
+    height: 8.8rem;
+    margin-right: 1rem;
+
+}
+
+.toolButton {
+    height: 4rem;
+    width: 4rem;
+    margin: 0.2rem;
+}
+
+/* Grid */
+#gridElements {
+    display: flex;
+    flex-direction: column;
+}
+
 #grid {
     height: 640px;
     width: 640px;
@@ -15,7 +42,16 @@
     background-color: lightblue !important;
 }
 
-/* Color sections styles */
+/* Brush Color */
+#brushColor {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    width: 6.8rem;
+    align-items: center;
+    margin-left: 1rem;
+}
+
 #currentColor {
     height: 3.2rem;
     width: 3.2rem;
@@ -44,30 +80,16 @@
     margin-top: 0.5rem;
 }
 
-/* Document structure */
-body {
-    display: flex;
-    justify-content: center;
-}
 
-#tools {
-    display: flex;
-    flex-direction: column;
-}
 
-#gridElements {
-    display: flex;
-    flex-direction: column;
-}
 
-#brushColor {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 auto;
-    width: 6.8rem;
-    align-items: center;
-    margin-left: 1rem;
-}
+
+
+
+
+
+
+
 
 /* Tool tips */
 /* 
