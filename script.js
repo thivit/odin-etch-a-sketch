@@ -234,13 +234,14 @@ function createColorButton(colorName, parentNode) {
 // Recent colors
 let recentColorArray = [];
 function addToRecentColors(colorName) {
+    const recentColorAmount = 12;
     // Check if color is already available 
     if (recentColorArray.includes(colorName)) {
         // Remove old instance of the brush color first
         recentColorArray.splice(recentColorArray.indexOf(colorName), 1);
         recentColorArray.unshift(colorName);
     // Check if recent color section if full
-    } else if (recentColorArray.length >= 10) {
+    } else if (recentColorArray.length >= recentColorAmount) {
         recentColorArray.pop();
         recentColorArray.unshift(colorName);
     } else {
