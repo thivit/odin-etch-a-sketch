@@ -92,9 +92,11 @@ let eraser = false;
 eraserButton.addEventListener('click', function() {
     if (!eraser) {
         brushColor = 'transparent';
+        eraserButton.setAttribute('class', 'toolButtonSelected');
         eraser = true;
     } else {
         brushColor = currentColor.style.backgroundColor;
+        eraserButton.setAttribute('class', 'toolButton');
         eraser = false;
     }
 })
