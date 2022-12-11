@@ -44,11 +44,13 @@ const defaultColorArray = [
 let gridLines = false;
 gridLinesButton.addEventListener('click', function() {
     if (gridLines) {
+        gridLinesButton.setAttribute('class', 'toolButton');
         for (let i = 0; i < grid.childElementCount; i++) {
             grid.childNodes[i].removeAttribute('data-outlined');
          }
          gridLines = false;
     } else {
+        gridLinesButton.setAttribute('class', 'toolButtonSelected');
         for (let i = 0; i < grid.childElementCount; i++) {
             grid.childNodes[i].setAttribute('data-outlined', 'true');
          }
@@ -63,21 +65,27 @@ clearButton.addEventListener('click', function () {
 });
 // Pipette
 pipetteButton.addEventListener('click', function() {
-    enableDrawing(false);
-    function changeBrushColor(eventObject) {
-        const pixelColor = eventObject.target.style.backgroundColor;
-        if (pixelColor !== 'transparent' && pixelColor !== '') {
-            updateBrushColor(pixelColor);
-            for (let i = 0; i < grid.childElementCount; i++) {
-                grid.childNodes[i].removeEventListener('mousedown', changeBrushColor);
-            }
+    function pipetteEnvironment(boolean) {
+        if (boolean) {
+            pipetteButton.setAttribute('class', 'toolButtonSelected');
+            enableDrawing(false);
+            // Delay adding event listener to prevent pipette button from triggering immediately
+            setTimeout(function() {
+                document.addEventListener('click', checkElementClicked);
+            }, 10);
+        } else {
+            pipetteButton.setAttribute('class', 'toolButton');
             enableDrawing();
+            document.removeEventListener('click', checkElementClicked);
         }
     }
-    // Add listeners to all the pixels
-    for (let i = 0; i < grid.childElementCount; i++) {
-        grid.childNodes[i].addEventListener('mousedown', changeBrushColor);
+    function checkElementClicked(e) {
+        let isPixel = e.target.classList.contains('pixel');
+        let elementColor = e.target.style.backgroundColor;
+        if (isPixel) {updateBrushColor(elementColor);}
+        pipetteEnvironment(false);
     }
+    pipetteEnvironment(true);
 });
 // Eraser
 let eraser = false;

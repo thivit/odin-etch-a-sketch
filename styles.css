@@ -14,10 +14,15 @@ body {
 
 }
 
-.toolButton {
+.toolButton,
+.toolButtonSelected {
     height: 4rem;
     width: 4rem;
     margin: 0.2rem;
+}
+
+.toolButtonSelected {
+    background-color: lightblue;
 }
 
 /* Grid */
